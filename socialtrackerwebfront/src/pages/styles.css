@@ -1,0 +1,37 @@
+/* Hero Section */
+.hero-section {
+  background-image: url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  color: white;
+  padding-top: 120px; /* prevents navbar overlap */
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* overlay for readability */
+  z-index: 1;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 2; /* keeps content above overlay */
+}
+
+/* Card hover effect */
+.hover-lift:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+/* Optional background for other sections */
+.bg-light-blue {
+  background-color: #e6f0fa;
+}
