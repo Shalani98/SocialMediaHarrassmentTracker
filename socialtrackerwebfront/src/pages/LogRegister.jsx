@@ -50,7 +50,7 @@ function LogRegister() {
           alert("Login Successful");
           if (formData.role === "Victim") {
             navigate("/VictimDashboard");
-          } else if (role === "Moderator") {
+          } else if (formData.role === "Moderator") {
             navigate("/ModeratorDashboard");
           } else if (formData.role === "Admin") {
             navigate("/AdminDashboard");
