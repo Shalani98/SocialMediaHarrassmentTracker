@@ -16,15 +16,17 @@ namespace SocialMediaHarrassmentTracker.Controllers
         private readonly string _bucketName = "social-media-complains-images";
 
         // 🔥 FIX 1: ADD CONSTRUCTOR!
-        public ComplainController(ComplainService complainService)
-        {
-            _complainService = complainService;
-            _s3Client = new AmazonS3Client(
-                "AKIAYBEBPZVCMZG3Z37G",
-                "vCk2Y78Ca+GRQH7s6+qrpYzHdNfn1v859QxA1SmS",
-                Amazon.RegionEndpoint.USEast1
-                );
-        }
+       public ComplainController(ComplainService complainService)
+{
+    _complainService = complainService;
+
+    var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+    var secretKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
+
+    var credentials = new BasicAWSCredentials(accessKey, secretKey);
+
+    _s3Client = new AmazonS3Client(credentials, Amazon.RegionEndpoint.USEast1);
+}
 
         [HttpPost("create")]
         public async Task<IActionResult> Create([FromForm] Complain model)
