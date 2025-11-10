@@ -77,7 +77,9 @@ function VictimDashboard() {
         .finally(() => setIsLoading(false));
     }
   };
-
+ const handleLogout = () => {
+    navigate("/LogRegister"); // Redirect to login page
+  };
   return (
     <div className="bg-light text-dark" style={{ minHeight: "100vh" }}>
       <section className="py-5">
@@ -160,6 +162,14 @@ function VictimDashboard() {
                         : active === "Create Complain"
                         ? "Submit Complain"
                         : "Refresh Complains"}
+                    </Button>
+                    {/* Logout Button */}
+                    <Button
+                      variant="outline-danger"
+                      className="w-100"
+                      onClick={handleLogout}
+                    >
+                      Log Out
                     </Button>
                   </Form>
                 </Card.Body>
