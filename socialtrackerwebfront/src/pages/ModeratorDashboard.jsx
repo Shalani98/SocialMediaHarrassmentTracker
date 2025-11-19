@@ -46,96 +46,110 @@ function ModeratorDashboard() {
   }, []);
 
   return (
-    <div className="container py-4">
-      <h2 className="mb-4 text-center">Moderator Dashboard</h2>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f0f4f8, #d9e2ec)",
+        paddingTop: "40px",
+        paddingBottom: "40px",
+      }}
+    >
+      <div className="container">
+        <h2 className="mb-4 text-center fw-bold">Moderator Dashboard</h2>
 
-      <div className="d-flex justify-content-end mb-3">
-        <button className="btn btn-primary" onClick={fetchComplains}>
-          Refresh
-        </button>
-      </div>
-
-      {isLoading ? (
-        <p className="text-center">Loading...</p>
-      ) : complains.length === 0 ? (
-        <p>No complaints found.</p>
-      ) : (
-        <div className="table-responsive">
-          <table className="table table-bordered table-striped table-hover">
-            <thead className="table-dark">
-              <tr>
-                <th>ID</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {complains.map((item, index) => (
-                <tr key={item.complain_Id}>
-                  <td>{index + 1}</td>
-                  <td>{item.description}</td>
-                  <td>
-                    {item.imageUrl ? (
-                      <a
-                        href={item.imageUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Image
-                      </a>
-                    ) : (
-                      "No Image"
-                    )}
-                  </td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        item.status === "Pending"
-                          ? "bg-warning text-dark"
-                          : item.status === "Accepted"
-                          ? "bg-success"
-                          : item.status === "Rejected"
-                          ? "bg-danger"
-                          : "bg-danger"
-                      }`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td>
-                    {item.status === "Pending" ? (
-                      <>
-                        <button
-                          className="btn btn-sm btn-success me-2"
-                          onClick={
-                            () => handleApproval(item.complain_Id, "Accepted") // match backend
-                          }
-                          disabled={acceptStatus}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() =>
-                            handleApproval(item.complain_Id, "Rejected")
-                          }
-                          disabled={acceptStatus}
-                        >
-                          Reject
-                        </button>
-                      </>
-                    ) : (
-                      <em>No Action</em>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="d-flex justify-content-end mb-3">
+          <button className="btn btn-primary" onClick={fetchComplains}>
+            Refresh
+          </button>
         </div>
-      )}
+
+        {isLoading ? (
+          <p className="text-center">Loading...</p>
+        ) : complains.length === 0 ? (
+          <p className="text-center">No complaints found.</p>
+        ) : (
+          <div
+            className="table-responsive p-3"
+            style={{
+              background: "rgba(255,255,255,0.9)",
+              borderRadius: "12px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+            }}
+          >
+            <table className="table table-bordered table-striped table-hover mb-0">
+              <thead className="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Description</th>
+                  <th>Image</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {complains.map((item, index) => (
+                  <tr key={item.complain_Id}>
+                    <td>{index + 1}</td>
+                    <td>{item.description}</td>
+                    <td>
+                      {item.imageUrl ? (
+                        <a
+                          href={item.imageUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View Image
+                        </a>
+                      ) : (
+                        "No Image"
+                      )}
+                    </td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          item.status === "Pending"
+                            ? "bg-warning text-dark"
+                            : item.status === "Accepted"
+                            ? "bg-success"
+                            : "bg-danger"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+                    <td>
+                      {item.status === "Pending" ? (
+                        <>
+                          <button
+                            className="btn btn-sm btn-success me-2"
+                            onClick={() =>
+                              handleApproval(item.complain_Id, "Accepted")
+                            }
+                            disabled={acceptStatus}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() =>
+                              handleApproval(item.complain_Id, "Rejected")
+                            }
+                            disabled={acceptStatus}
+                          >
+                            Reject
+                          </button>
+                        </>
+                      ) : (
+                        <em>No Action</em>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
