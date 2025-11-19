@@ -58,17 +58,11 @@ function VictimDashboard() {
     } else if (active === "View Complains") {
       setIsLoading(true);
       axios
-        .get("https://localhost:7245/api/complain/GetAll", {
-          headers: {
-            // Add Authorization if needed
-          },
-        })
+        .get("https://localhost:7245/api/complain/GetAll")
         .then((response) => {
-          console.log("Fetched complaints:", response.data);
-          setComplains(response.data); // Adjust if nested: response.data.data
+          setComplains(response.data);
         })
         .catch((error) => {
-          console.error("Fetch Complaints Error:", error.response?.data);
           alert(
             "Failed to fetch complaints: " +
               (error.response?.data?.message || error.message)
@@ -77,18 +71,35 @@ function VictimDashboard() {
         .finally(() => setIsLoading(false));
     }
   };
- const handleLogout = () => {
-    navigate("/LogRegister"); // Redirect to login page
+
+  const handleLogout = () => {
+    navigate("/LogRegister");
   };
+
   return (
-    <div className="bg-light text-dark" style={{ minHeight: "100vh" }}>
+    <div
+      className="text-dark"
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #dbeafe, #eff6ff)",
+        paddingTop: "40px",
+      }}
+    >
       <section className="py-5">
         <Container>
           <Row className="justify-content-center">
             <Col md={7}>
-              <Card className="shadow-sm border-0">
+              <Card
+                className="shadow border-0"
+                style={{
+                  borderRadius: "16px",
+                  background: "rgba(255, 255, 255, 0.85)",
+                  backdropFilter: "blur(6px)",
+                }}
+              >
                 <Card.Body>
-                  <h2 className="text-center mb-4">{active}</h2>
+                  <h2 className="text-center mb-4 fw-bold">{active}</h2>
+
                   <div className="d-flex justify-content-center mb-4">
                     <Button
                       variant={
@@ -97,46 +108,45 @@ function VictimDashboard() {
                           : "outline-primary"
                       }
                       className="me-2"
-                      onClick={() => {
-                        console.log("Switching to Create Complain");
-                        setActive("Create Complain");
-                      }}
+                      onClick={() => setActive("Create Complain")}
                     >
-                      Create Complain
+                      ➕ Create Complain
                     </Button>
+
                     <Button
                       variant={
                         active === "View Complains"
                           ? "primary"
                           : "outline-primary"
                       }
-                      onClick={() => {
-                        console.log("Switching to View Complains");
-                        setActive("View Complains");
-                      }}
+                      onClick={() => setActive("View Complains")}
                     >
-                      View Complains
+                      📄 View Complains
                     </Button>
                   </div>
 
                   <Form onSubmit={handleSubmit}>
                     {active === "Create Complain" && (
                       <>
-                        <Form.Group className="mb-3" controlId="description">
-                          <Form.Label>Description</Form.Label>
+                        <Form.Group className="mb-3">
+                          <Form.Label className="fw-bold">
+                            Description
+                          </Form.Label>
                           <Form.Control
                             as="textarea"
-                            name="description"
-                            placeholder="Enter description"
                             rows={3}
+                            name="description"
+                            placeholder="Describe the incident..."
                             value={complain.description}
                             onChange={handleChange}
                             required
                           />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="imageFile">
-                          <Form.Label>Image File</Form.Label>
+                        <Form.Group className="mb-3">
+                          <Form.Label className="fw-bold">
+                            Image File
+                          </Form.Label>
                           <Form.Control
                             type="file"
                             name="imageFile"
@@ -154,19 +164,19 @@ function VictimDashboard() {
                         active === "Create Complain" ? "primary" : "success"
                       }
                       type="submit"
-                      className="w-100"
+                      className="w-100 fw-bold"
                       disabled={isLoading}
                     >
                       {isLoading
                         ? "Loading..."
                         : active === "Create Complain"
-                        ? "Submit Complain"
-                        : "Refresh Complains"}
+                        ? "Submit Complaint"
+                        : "Refresh Complaints"}
                     </Button>
-                    {/* Logout Button */}
+
                     <Button
                       variant="outline-danger"
-                      className="w-100"
+                      className="w-100 mt-3 fw-bold"
                       onClick={handleLogout}
                     >
                       Log Out
@@ -174,11 +184,13 @@ function VictimDashboard() {
                   </Form>
                 </Card.Body>
               </Card>
+
               {active === "View Complains" && (
                 <>
                   {isLoading && <p className="text-center mt-4">Loading...</p>}
-                  <table className="table table-bordered mt-4">
-                    <thead>
+
+                  <table className="table table-bordered mt-4 shadow-sm bg-white">
+                    <thead className="table-light">
                       <tr>
                         <th>Description</th>
                         <th>Image URL</th>
