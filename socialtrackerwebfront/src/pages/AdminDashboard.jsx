@@ -3,11 +3,14 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom"; // 
 
 function AdminDashboard() {
   const [complains, setComplains] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
+
+  const navigate = useNavigate(); // 
 
   // Fetch complaints from API
   useEffect(() => {
@@ -55,6 +58,12 @@ function AdminDashboard() {
     doc.save("complaints_report.pdf");
   };
 
+  // ✅ Corrected logout function
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // or sessionStorage if used
+    navigate("/logregister"); // Redirect to login/register page
+  };
+
   return (
     <div
       style={{
@@ -66,6 +75,9 @@ function AdminDashboard() {
     >
       <div className="container">
         <h2 className="mb-4 text-center fw-bold">Admin Dashboard</h2>
+        <button className="btn btn-outline-danger mb-3" onClick={handleLogout}>
+          Logout
+        </button>
 
         {/* Controls */}
         <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
