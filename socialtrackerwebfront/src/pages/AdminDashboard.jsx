@@ -3,14 +3,14 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom"; // 
+import { useNavigate } from "react-router-dom"; 
 
 function AdminDashboard() {
   const [complains, setComplains] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
 
-  const navigate = useNavigate(); // 
+  const navigate = useNavigate(); 
 
   // Fetch complaints from API
   useEffect(() => {
