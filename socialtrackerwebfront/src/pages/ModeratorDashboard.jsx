@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom"; // assuming react-router is used
 
 function ModeratorDashboard() {
   const [complains, setComplains] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [acceptStatus, setAcceptStatus] = useState(false);
+  const navigate = useNavigate();
 
   const fetchComplains = async () => {
     setIsLoading(true);
@@ -41,6 +43,12 @@ function ModeratorDashboard() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    // Redirect to login page
+    navigate("/logregister");
+  };
+
   useEffect(() => {
     fetchComplains();
   }, []);
@@ -55,7 +63,12 @@ function ModeratorDashboard() {
       }}
     >
       <div className="container">
-        <h2 className="mb-4 text-center fw-bold">Moderator Dashboard</h2>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2 className="fw-bold">Moderator Dashboard</h2>
+          <button className="btn btn-outline-danger" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
 
         <div className="d-flex justify-content-end mb-3">
           <button className="btn btn-primary" onClick={fetchComplains}>
