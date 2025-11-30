@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaHarrassmentTracker.Models;
 using SocialMediaHarrassmentTracker.Services;
@@ -53,6 +53,13 @@ namespace SocialMediaHarrassmentTracker.Controllers
             }
             bool update = userService.Update(model);
             return update ? Ok("Users updated successfully.") : BadRequest("Update failed");
+        }
+
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            var users = userService.GetAll();
+            return Ok(users);
         }
     }
 }
