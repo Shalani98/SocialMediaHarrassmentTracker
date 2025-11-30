@@ -1,16 +1,17 @@
-﻿using System.Data.Common;
-using Microsoft.Data.SqlClient;
 using BCrypt.Net;
-using SocialMediaHarrassmentTracker.Util;
+using Microsoft.Data.SqlClient;
 using SocialMediaHarrassmentTracker.Models;
+using SocialMediaHarrassmentTracker.Util;
+using System.Data.Common;
+using System.Net;
 
 namespace SocialMediaHarrassmentTracker.Services
 {
     public class UserService
     {
-        private readonly DBConnection db;  // ← FIXED!
+        private readonly DBConnection db;  
 
-        public UserService(DBConnection dbConnection)  // ← FIXED!
+        public UserService(DBConnection dbConnection)  
         {
             db = dbConnection;
         }
@@ -77,6 +78,28 @@ namespace SocialMediaHarrassmentTracker.Services
             cmd.Parameters.AddWithValue("@Address", model.Address);
 
             return cmd.ExecuteNonQuery() > 0;
+        }
+
+        public List<Users> GetAll()
+        {
+            List<Users> user = new List<Users>();
+            using var conn = db.GetConn();
+            conn.Open();
+            string sql = "SELECT * FROM Users";
+            using var cmd = new SqlCommand(sql, conn);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                user.Add(new Users
+                {
+                    Id = (int)reader["Id"],
+                    Name = reader["Name"].ToString(),
+                    Email = reader["Email"].ToString(),
+                    Role = reader["Role"].ToString(),
+                    PhoneNumber = reader["PhoneNumber"].ToString(),
+                    Address = reader["Address"].ToString()
+                });
+            }return user;
         }
     }
 }
