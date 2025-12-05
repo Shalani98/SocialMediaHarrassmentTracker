@@ -1,20 +1,20 @@
-# Social Media Harassment Tracker 🚨
+ Social Media Harassment Tracker 🚨
 
 A full-stack web application to track and report social media harassment incidents.
 
-## 🖥️ Project Structure
+ 🖥️ Project Structure
 - **Backend:** ASP.NET Core (C#) — AWS S3 integration for image storage  
 - **Frontend:** React (socialtrackerwebfront)  
 - **Database:** AWS RDS / SQL Server  
 
-## ⚙️ Technologies Used
+⚙️ Technologies Used
 - .NET 8 / ASP.NET Core Web API  
 - React.js  
 - AWS (S3, EC2, RDS, IAM, VPC)  
 - Entity Framework Core  
 - GitHub Actions (optional for CI/CD)
 
-## ☁️ AWS Infrastructure Setup
+ ☁️ AWS Infrastructure Setup
 The application is hosted and managed entirely on AWS:
 
 - **Amazon EC2:** Hosts the ASP.NET Core backend API  
@@ -23,14 +23,16 @@ The application is hosted and managed entirely on AWS:
 - **AWS IAM:** Provides secure access control and permissions for AWS services  
 - **Amazon VPC:** Ensures network isolation and secure communication between components  
 
-## 🧭 Accessing AWS Services in Visual Studio
+
+
+ 🧭 Accessing AWS Services in Visual Studio
 To connect and manage AWS resources directly:
 1. Install **AWS Toolkit for Visual Studio** (via Extensions → Manage Extensions).  
 2. Open **AWS Explorer** from the “View” menu.  
 3. Add your AWS account credentials or profile.  
 4. Expand to view and manage services such as **S3**, **RDS**, **Lambda**, or **EC2**.
 
-## 🚀 Deployment
+ 🚀 Deployment
 To deploy:
 1. Configure your AWS credentials locally (never commit them to GitHub).
 2. Run the backend:
