@@ -23,7 +23,26 @@ The application is hosted and managed entirely on AWS:
 - **AWS IAM:** Provides secure access control and permissions for AWS services  
 - **Amazon VPC:** Ensures network isolation and secure communication between components  
 
+🧩 UML Diagrams
+1. ER Diagram
+Shows the database structure and relationships.
+![ER Diagram](docs/ER diagram.png)
 
+2. Class Diagram
+Represents classes and relationships for your system.
+![Class Diagram](docs/Class Diagram.png)
+
+3. Activity Diagram
+Shows the flow of actions (e.g., victim submitting a complain, moderator reviewing).
+![Activity Diagram](docs/Activity diagram.png)
+
+4. Sequence Diagram
+Shows step-by-step interaction between Victim, Moderator, Admin, API, and Database.
+![Sequence Diagram](docs/Sequence diagram.png)
+
+5.Use Case Diagram
+Illustrates the main actors (Victim, Moderator, Admin) and their interactions with the system.  
+![Use Case Diagram](docs/UseCase diagram.jpeg)
 
  🧭 Accessing AWS Services in Visual Studio
 To connect and manage AWS resources directly:
