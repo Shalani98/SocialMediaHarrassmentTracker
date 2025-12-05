@@ -1,4 +1,4 @@
- Social Media Harassment Tracker 🚨
+**Social Media Harassment Tracker 🚨**
 
 A full-stack web application to track and report social media harassment incidents.
 
