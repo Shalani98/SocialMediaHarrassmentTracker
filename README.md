@@ -38,7 +38,7 @@ Shows the flow of actions (e.g., victim submitting a complain, moderator reviewi
 
 4. Sequence Diagram
 Shows step-by-step interaction between Victim, Moderator, Admin, API, and Database.
-![Sequence Diagram](docs/Sequence diagram.png)
+![Sequence Diagram](docs/Sequence Diagram.png)
 
 5.Use Case Diagram
 Illustrates the main actors (Victim, Moderator, Admin) and their interactions with the system.  
