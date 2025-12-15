@@ -1,0 +1,141 @@
+/* GLOBAL BACKGROUND */
+.moderator-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #160b2f, #230a3a, #2d0f45);
+  padding: 30px;
+  color: #e6e6e6;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+.m-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.m-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #8be9ff;
+  letter-spacing: 1px;
+}
+
+.m-btn-logout {
+  background: transparent;
+  padding: 10px 22px;
+  border-radius: 8px;
+  border: 1px solid #ff5c5c;
+  color: #ff5c5c;
+  transition: 0.3s ease;
+}
+
+.m-btn-logout:hover {
+  background: #ff5c5c;
+  color: #fff;
+}
+
+/* REFRESH BUTTON */
+.m-btn-refresh {
+  background: linear-gradient(135deg, #3a86ff, #2cd3ff);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 0 20px rgba(44, 211, 255, 0.4);
+  transition: 0.3s ease;
+}
+
+.m-btn-refresh:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(44, 211, 255, 0.7);
+}
+
+/* TABLE WRAPPER CARD */
+.m-card-table {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* TABLE STYLES */
+.m-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #dce3f7;
+}
+
+.m-table th {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 12px;
+  color: #33e1ff;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.m-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* STATUS BADGES */
+.badge-pending {
+  background: #ffdd57;
+  color: #000;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.badge-accepted {
+  background: #28d98b;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.badge-rejected {
+  background: #ff5c5c;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+/* ACTION BUTTONS */
+.m-btn-action {
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.m-btn-accept {
+  background: #28d98b;
+  box-shadow: 0 0 15px rgba(40, 217, 139, 0.4);
+}
+
+.m-btn-accept:hover {
+  transform: scale(1.07);
+}
+
+.m-btn-reject {
+  background: #ff5c5c;
+  box-shadow: 0 0 15px rgba(255, 92, 92, 0.4);
+}
+
+.m-btn-reject:hover {
+  transform: scale(1.07);
+}
+
+/* NO DATA TEXT */
+.m-nodata {
+  text-align: center;
+  color: #9ca3c7;
+  font-size: 18px;
+  padding: 40px 0;
+}
