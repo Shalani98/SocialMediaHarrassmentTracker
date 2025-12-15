@@ -3,16 +3,18 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import "../AdminDashboard.css"; // Make sure your enhanced CSS is imported
 
 function AdminDashboard() {
   const [complains, setComplains] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  // Fetch complaints from API
+  // Fetch complaints
   useEffect(() => {
     const fetchComplains = async () => {
       setIsLoading(true);
@@ -30,61 +32,87 @@ function AdminDashboard() {
     fetchComplains();
   }, []);
 
-  // Filter complaints based on status
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Filter complaints
   const filteredComplains =
     filterStatus === "All"
       ? complains
       : complains.filter((c) => c.status === filterStatus);
 
-  // Generate PDF report
+  // PDF generation
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
     doc.text("Social Media Complaints Report", 14, 22);
 
-    const tableColumn = ["ID", "Description", "ImageUrl", "Status"];
-    const tableRows = [];
+    const tableColumn = ["ID", "Description", "Image URL", "Status"];
+    const tableRows = filteredComplains.map((c) => [
+      c.complain_Id,
+      c.description,
+      c.imageUrl,
+      c.status,
+    ]);
 
-    filteredComplains.forEach((c) => {
-      tableRows.push([c.complain_Id, c.description, c.imageUrl, c.status]);
-    });
-
-    autoTable(doc, {
-      head: [tableColumn],
-      body: tableRows,
-      startY: 30,
-    });
-
+    autoTable(doc, { head: [tableColumn], body: tableRows, startY: 30 });
     doc.save("complaints_report.pdf");
   };
 
-  // ✅ Corrected logout function
+  // Logout
   const handleLogout = () => {
-    localStorage.removeItem("authToken"); // or sessionStorage if used
-    navigate("/logregister"); // Redirect to login/register page
+    localStorage.removeItem("authToken");
+    navigate("/logregister");
   };
 
+  // Compute summary counts
+  const total = complains.length;
+  const pending = complains.filter((c) => c.status === "Pending").length;
+  const accepted = complains.filter((c) => c.status === "Accepted").length;
+  const rejected = complains.filter((c) => c.status === "Rejected").length;
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(135deg, #e0f7fa, #e1bee7)",
-        paddingTop: "40px",
-        paddingBottom: "40px",
-      }}
-    >
+    <div className="admin-bg">
       <div className="container">
-        <h2 className="mb-4 text-center fw-bold">Admin Dashboard</h2>
-        <button className="btn btn-outline-danger mb-3" onClick={handleLogout}>
-          Logout
-        </button>
+        {/* Header */}
+        <div className="admin-header">
+          <h1 className="admin-title">Admin Dashboard</h1>
+          <button className="admin-btn-logout" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+
+        {/* Summary Cards */}
+        <div className="admin-summary">
+          <div className="summary-card">
+            <h3>Total Complaints</h3>
+            <p>{total}</p>
+          </div>
+          <div className="summary-card">
+            <h3>Pending</h3>
+            <p>{pending}</p>
+          </div>
+          <div className="summary-card">
+            <h3>Accepted</h3>
+            <p>{accepted}</p>
+          </div>
+          <div className="summary-card">
+            <h3>Rejected</h3>
+            <p>{rejected}</p>
+          </div>
+        </div>
 
         {/* Controls */}
-        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          <div className="d-flex align-items-center">
-            <label className="me-2 fw-semibold">Status Filter:</label>
+        <div className="admin-controls">
+          <div className="d-flex align-items-center gap-2">
+            <label className="fw-semibold mb-0">Status Filter:</label>
             <select
-              className="form-select d-inline-block w-auto"
+              className="admin-select"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -94,71 +122,79 @@ function AdminDashboard() {
               <option value="Rejected">Rejected</option>
             </select>
           </div>
-          <button className="btn btn-primary" onClick={generatePDF}>
+          <button
+            className="admin-btn-action admin-btn-pdf"
+            onClick={generatePDF}
+          >
             Generate PDF Report
+          </button>
+        </div>
+        <div className="admin-header">
+          <h1 className="admin-title">Admin Dashboard</h1>
+          <div className="clock">
+            {currentTime.toLocaleTimeString()} {/* Shows HH:MM:SS */}
+          </div>
+          <button className="admin-btn-logout" onClick={handleLogout}>
+            Logout
           </button>
         </div>
 
         {/* Table */}
-        {isLoading ? (
-          <p className="text-center">Loading complaints...</p>
-        ) : filteredComplains.length === 0 ? (
-          <p className="text-center">No complaints found.</p>
-        ) : (
-          <div
-            className="table-responsive p-3"
-            style={{
-              background: "rgba(255, 255, 255, 0.95)",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            }}
-          >
-            <table className="table table-bordered table-striped table-hover mb-0">
-              <thead className="table-dark">
-                <tr>
-                  <th>#</th>
-                  <th>Description</th>
-                  <th>Image URL</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredComplains.map((item, index) => (
-                  <tr key={item.complain_Id}>
-                    <td>{index + 1}</td>
-                    <td>{item.description}</td>
-                    <td>
-                      {item.imageUrl ? (
-                        <a
-                          href={item.imageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Image
-                        </a>
-                      ) : (
-                        "No Image"
-                      )}
-                    </td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          item.status === "Pending"
-                            ? "bg-warning text-dark"
-                            : item.status === "Accepted"
-                            ? "bg-success"
-                            : "bg-danger"
-                        }`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
+        <div className="table-card">
+          {isLoading ? (
+            <p className="admin-nodata">Loading complaints...</p>
+          ) : filteredComplains.length === 0 ? (
+            <p className="admin-nodata">No complaints found.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {filteredComplains.map((item, index) => (
+                    <tr key={item.complain_Id}>
+                      <td>{index + 1}</td>
+                      <td>{item.description}</td>
+                      <td>
+                        {item.imageUrl ? (
+                          <a
+                            href={item.imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-info"
+                          >
+                            View Image
+                          </a>
+                        ) : (
+                          "No Image"
+                        )}
+                      </td>
+                      <td>
+                        <span
+                          className={
+                            item.status === "Pending"
+                              ? "badge-pending"
+                              : item.status === "Accepted"
+                              ? "badge-accepted"
+                              : "badge-rejected"
+                          }
+                        >
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
